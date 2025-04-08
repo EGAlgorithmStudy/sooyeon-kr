@@ -22,5 +22,4 @@ jobs:
       - name: Run Python script
         run: |
           cd utils
-          python your_script.py
           python update_daily_tasks_all.py
