@@ -1,0 +1,30 @@
+name: Run Python Script in utils
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-python-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          cd utils
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run Python script
+        run: |
+          cd utils
+          python update_daily_tasks_all.py
