@@ -30,7 +30,7 @@ jobs:
         run: |
           git config --global user.name 'sooyeon-kr'
           git config --global user.email 'sooyeon7027@naver.com'
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/EGAlgorithmStudy/sooyeon-kr.git
           git add .
-          git diff --cached --quiet || git commit -m ":calendar: weekly task summary"
+          git diff --cached --quiet || git commit -m "${{ steps.generate_message.outputs.commit_message }}"
           git push
-
