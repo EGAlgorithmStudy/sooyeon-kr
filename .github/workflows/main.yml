@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - 'week*/README.md'
 
 jobs:
   run-python-script:
@@ -23,3 +25,39 @@ jobs:
         run: |
           cd utils
           python update_daily_tasks_all.py
+
+      # - name: Commit and push changes
+      #   run: |
+      #     git config --global user.name 'sooyeon-kr'
+      #     git config --global user.email 'sooyeon7027@naver.com'
+      #     git add .
+      #     git diff --cached --quiet || git commit -m ":calendar: weekly task summary"
+      #     git push
+
+      - name: Generate commit message
+        id: generate_message
+        run: |
+          COMMIT_MESSAGE=$(python <<EOF
+from datetime import datetime, timedelta
+
+START_DATE = datetime(2025, 4, 1)
+today = datetime.today()
+delta_days = (today - START_DATE).days
+week_num = (delta_days // 7) + 1 if delta_days >= 0 else 0
+
+week_start = START_DATE + timedelta(weeks=week_num - 1)
+week_end = week_start + timedelta(days=6)
+
+message = f":rocket: auto: 📚 week {week_num:02} ({week_start.strftime('%Y-%m-%d')} ~ {week_end.strftime('%Y-%m-%d')})"
+print(message)
+EOF
+)
+          echo "commit_message=$COMMIT_MESSAGE" >> $GITHUB_OUTPUT
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'sooyeon-kr'
+          git config --global user.email 'sooyeon7027@naver.com'
+          git add .
+          git diff --cached --quiet || git commit -m "${{ steps.generate_message.outputs.commit_message }}"
+          git push
