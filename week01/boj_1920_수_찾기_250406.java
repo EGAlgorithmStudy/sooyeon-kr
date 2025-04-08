@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class boj_1920_수_찾기_250406 {
 	static int N, M;

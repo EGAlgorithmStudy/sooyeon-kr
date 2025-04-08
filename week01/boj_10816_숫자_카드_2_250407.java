@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 import java.util.stream.Stream;
 
-public class boj_10816_숫자_카드2_250407 {
+public class boj_10816_숫자_카드_2_250407 {
 
 	static int N, M;
 	static int[] nums;
