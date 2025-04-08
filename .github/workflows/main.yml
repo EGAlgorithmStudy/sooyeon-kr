@@ -13,23 +13,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: |
-          cd utils
-          python -m pip install --upgrade pip
-          python -m pip install --only-binary=:all: -r requirements.txt
-          
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: 'pip'
-
-      - name: Install dependencies
-        run: |
-          cd utils
-          python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then python -m pip install -r requirements.txt; fi
 
       - name: Run Python script
         run: |
